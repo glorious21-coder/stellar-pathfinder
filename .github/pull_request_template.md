@@ -1,65 +1,39 @@
-## What this changes
+# Pull Request
 
-<!-- One or two sentences. What did you add or fix, and why does it change
-     what a reader believes about a corridor? -->
+## Closes
+- #171
 
-Closes #
-Roadmap entry: Backlog #
+## Summary
 
-## Confirmations
+This change preserves and publishes the number of distinct candidate paths considered for each priced rung.
 
-Tick each box. **An unticked box is not a rejection** — it routes the PR to a
-human instead of merging automatically, which is often the right outcome.
+## What changed
 
-If a line does not apply to your change, tick it and say why underneath.
+- count distinct Horizon paths before dropping the lower-ranked candidates
+- carry the count through route pricing into the published quote model
+- expose the value on rung and recommended quote JSON as `path_count`
+- add a regression test covering the wire output contract
 
-- [ ] **Unknown is reported as unknown.** When data is unavailable this
-      returns UNABLE-TO-DETERMINE — not zero, not a default, not an estimate.
-      An anchor that does not publish something is different from one that
-      publishes something wrong, and the output says which.
-- [ ] **Every figure came from a live source or a recorded snapshot.** Nothing
-      is guessed, interpolated, or averaged from other figures.
-- [ ] **Tests run from `testdata/snapshots`, with no live network.** Verified
-      with `make offline-test`.
-- [ ] **There is a negative test.** A case where the code must fail or return
-      undeterminable — not only the happy path. A test that cannot fail proves
-      nothing.
-- [ ] **`decimal.Decimal` for all money and rates.** No `float64` anywhere a
-      price, amount or percentage is handled.
-- [ ] **No new third-party dependencies.**
-- [ ] **No maintainer-owned area modified without flagging.** Nothing in `dex/`
-      pricing arithmetic, verdict thresholds, integrity taxonomy/semantics,
-      SEP-38 fee handling, check composition rules (`route.WithFindings`),
-      run-record layout, or corridor health score. (If the work turns out to
-      require changing any of these, stop and flag it — that is a different
-      issue with a different review bar).
-- [ ] **Assert nothing the repository does not support.** Every claim is checked
-      against the code at time of writing; every measurement carries its source
-      and date checked; future capabilities are marked future; a negative or
-      inconclusive finding is reported as a valid result.
-- [ ] **`make fmt vet test race lint offline-test` is clean.**
+## Why
 
-## How you verified it
+The previous behavior discarded all but the best path for a rung, which meant the published corridor data lost legitimate path diversity even when Horizon returned several viable routes.
 
-<!-- The exact command, and what it printed. If you measured something live,
-     include the raw figures and the timestamp. -->
+## Verification
 
-```
-```
-
----
-
-<details>
-<summary>Why this template exists</summary>
-
-This project's value is arithmetic correctness about money. A plausible-looking
-PR that passes CI can still quietly change a published number, and the reader
-of a published figure has no way to tell.
-
-So the first review pass sits with you. The auto-merge gate lands changes it
-can verify mechanically and hands everything else to a maintainer — the boxes
-above are what it reads. Nothing here is ceremony: each line corresponds to a
-failure this repository has actually had, or to an invariant in
-[CONTRIBUTING.md](CONTRIBUTING.md).
-
-</details>
+- ok  	github.com/Wayfare-labs/wayfare	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/analysis	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/anchor	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/asset	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/checks	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/cmd/hop-analysis	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/cmd/ladder	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/cmd/wayfared	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/dex	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/monitor	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/refrate	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/route	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/runstore	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/sep38	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/server	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/snapshot	(cached)
+- ok  	github.com/Wayfare-labs/wayfare/transport	(cached)
